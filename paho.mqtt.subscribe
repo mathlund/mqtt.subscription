@@ -1,0 +1,11 @@
+import paho.mqtt.subscribe as subscribe
+print("Subscription til MQTT kører")
+
+def on_message_print(client, userdata, message):
+    print("%s" % (message.payload))
+    userdata["message_count"] += 1
+    if userdata["message_count"] >= 5:
+        client.disconnect()
+
+
+subscribe.callback(on_message_print, "motor", hostname="20.251.144.96", userdata={"message_count": 0})
